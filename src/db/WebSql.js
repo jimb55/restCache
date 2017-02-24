@@ -58,7 +58,6 @@ let rc_websql = (function () {
                 tx.executeSql('DELETE FROM restcache WHERE  url like "%'+query+'%"',[],(e) => {
                     if( typeof(callback) == 'function') callback(query);
                 },(e) => {
-                    dd(e);
                     if( typeof(callback) == 'function') callback(query);
                 });
             });

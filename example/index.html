@@ -11,12 +11,22 @@
 
 </div>
 
+
+
+<a href="../server/restcache/example/index.php?action=create_table">创建数据库表</a>
+<br />
+<a href="../server/restcache/example/index.php?action=create_table&test=1">创建数据库表 + 测试表 ( 后面测试必备 ) </a>
+<br />
+<a href="../server/restcache/example/index.php?action=add_car_company">插入一条car 和 company 数据 </a>
+<br />
+<a href="../server/restcache/example/index.php?action=add_car">插入一条car 数据 </a>
+<br />
+<a href="javascript:void(0);" onclick="history.go(0);">直接刷新 缓存不请求 </a>
+
 <script>
-    var dd = console.log;
-    //var url = "http://183.6.168.58:9885/admin-api/productSerialNo?nologin=1&draw=4&order%5B0%5D%5Bcolumn%5D=id&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&page=1&per_page=10&columnFilter%5B0%5D%5Bcolumn%5D=product_id&columnFilter%5B0%5D%5Bval%5D=1&columnFilter%5B0%5D%5Bexp%5D=%3D&_=1486635117987";
-    var url1 = "/zw/cachetestserver/restcache/example/cars.php";
-    var url2 = "/zw/cachetestserver/restcache/example/companys.php";
-    var check_url = "/zw/cachetestserver/restcache/example/index.php?action=check_cache";
+    var url1 = "../server/restcache/example/cars.php";
+    var url2 = "../server/restcache/example/companys.php";
+    var check_url = "../server/restcache/example/index.php?action=check_cache";
 
     /**
      * get

@@ -44,6 +44,6 @@ if(array_key_exists("action",$_GET)){
 <br />
 <a href="<?php echo $_SERVER['PHP_SELF'].'?action=add_car';?>">插入一条car 数据 </a>
 <br />
-<a href="">进入测试页面 </a>
+<a href="../../../example/">进入测试页面 </a>
 
 
