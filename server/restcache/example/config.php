@@ -13,7 +13,7 @@ return [
             'driver' => 'mysql',
             'host' => 'localhost',
             'port' => '3306',
-            'database' => 'cachetest',
+            'database' => 'cach',
             'username' => 'root',
             'password' => 'jian',
             'charset' => 'utf8',
