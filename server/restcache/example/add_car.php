@@ -27,6 +27,7 @@ function generateName($length = 8)
     return $name;
 }
 $restCache = new RestCache();
+$restCache -> bootstrapCapsule();
 $restCache -> setConfig(__DIR__."/config.php");
 
 if(Capsule::table('cars')->insert(["name" => generateName(),"email" => generateName()."@".generateName(4).".gmail"])){

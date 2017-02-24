@@ -9,6 +9,7 @@
 use Jimb\RestCache\RestCache;
 
 $restCache = new RestCache;
+$restCache -> bootstrapCapsule();
 
 $data = $restCache -> getRouterFromTime($_GET["updated_at"]);
 

@@ -5,23 +5,44 @@ namespace Jimb\RestCache;
 use Jimb\RestCache\ConfigManage;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Jimb\RestCache\Model\RestCache as RestCacheModel;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Container\Container;
 
 class RestCache
 {
     use ConfigManage;
 
-    public function __construct(){
+    public function __construct()
+    {
     }
 
-    public function test(){
-        dd($this -> getConfig());
+    /**
+     * 加载Capsule
+     */
+    public function bootstrapCapsule()
+    {
+        //新建一个 Capsule 进行配置
+        $capsule = new Capsule;
+
+        //数据库连接属性配置
+        $capsule->addConnection($this->getMysqlConfig());
+
+        // 注册model 事件组建
+        $capsule->setEventDispatcher(new Dispatcher(new Container));
+
+        // Make this Capsule instance available globally via static methods...
+        $capsule->setAsGlobal();
+
+        // 安装Eloquent
+        $capsule->bootEloquent();
     }
 
     /**
      * 创建一个restcache table
      */
-    public function createTable(){
-        Capsule::schema() -> create('restcache', function (Blueprint $table) {
+    public function createTable()
+    {
+        Capsule::schema()->create('restcache', function (Blueprint $table) {
             $table->increments('id');
             $table->string('router');
             $table->string('table');
@@ -35,20 +56,21 @@ class RestCache
      *
      * @param $table string || array
      */
-    public function saveTableChange($table){
+    public function saveTableChange($table)
+    {
         $tables = is_array($table) ? $table : array($table);
-        $rules = $this -> getTableRouteRule();
+        $rules = $this->getTableRouteRule();
 
-        $routers = $this -> getRouterChange($tables,$rules);
+        $routers = $this->getRouterChange($tables, $rules);
 
         //更新数据数据
-        foreach($routers as $item){
-            $restCacheModel =  RestCacheModel::where("router","=",$item) -> first();
+        foreach ($routers as $item) {
+            $restCacheModel = RestCacheModel::where("router", "=", $item)->first();
             $restCacheModel = $restCacheModel == NULL ? new RestCacheModel : $restCacheModel;
-            $restCacheModel -> router = $item;
-            $restCacheModel -> table = "";
-            $restCacheModel -> action = time();
-            $restCacheModel -> save() ;
+            $restCacheModel->router = $item;
+            $restCacheModel->table = "";
+            $restCacheModel->action = time();
+            $restCacheModel->save();
         }
     }
 
@@ -58,9 +80,10 @@ class RestCache
      * @param $updateTime
      * @return array
      */
-    public function getRouterFromTime($updateTime){
-        $arr = RestCacheModel::select("router") -> where("updated_at",">",$updateTime) -> get() -> toArray();
-        return array_column($arr,"router");
+    public function getRouterFromTime($updateTime)
+    {
+        $arr = RestCacheModel::select("router")->where("updated_at", ">", $updateTime)->get()->toArray();
+        return array_column($arr, "router");
     }
 
     /**
@@ -70,12 +93,13 @@ class RestCache
      * @param $rules
      * @return array
      */
-    public function getRouterChange($tables,$rules){
+    public function getRouterChange($tables, $rules)
+    {
         $changeRoute = [];
-        foreach($tables as $table){
-            foreach($rules as $key => $rule){
-                if(in_array($table,$rule)){
-                    array_push($changeRoute,$key);
+        foreach ($tables as $table) {
+            foreach ($rules as $key => $rule) {
+                if (in_array($table, $rule)) {
+                    array_push($changeRoute, $key);
                 }
             }
         }

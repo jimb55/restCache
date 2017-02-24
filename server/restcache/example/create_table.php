@@ -9,6 +9,10 @@
  * Time: 上午11:00
  */
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Jimb\RestCache\RestCache;
+
+$restCache = new RestCache;
+$restCache -> bootstrapCapsule();
 
 if(array_key_exists("test",$_GET)){
     if(count(Capsule::select('SHOW TABLES LIKE "companys"')) != 1){
