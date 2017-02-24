@@ -1,0 +1,46 @@
+{
+  "name": "Jimb/RestCache",
+  "description": "rest cache",
+  "keywords": [
+    "websql",
+    "restcache",
+    "restCache",
+    "RestCache",
+    "javascript",
+    "cache",
+    "restful",
+    "laravel"
+  ],
+  "homepage": "https://github.com/jimb55/restCache",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "jimb55",
+      "email": "760785539@qq.com",
+      "homepage": "https://murze.be"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "illuminate/database":"~5.4.0",
+    "illuminate/events":"~5.4.0"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Jimb\\RestCache\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spatie\\MediaLibrary\\Test\\": "tests"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}

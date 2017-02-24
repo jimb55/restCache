@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://www.w3school.com.cn/jquery/jquery-1.11.1.min.js"></script>
+    <script src="../build/bundle.js"></script>
+</head>
+<body>
+
+<div id="showList">
+
+</div>
+
+<script>
+    var dd = console.log;
+    //var url = "http://183.6.168.58:9885/admin-api/productSerialNo?nologin=1&draw=4&order%5B0%5D%5Bcolumn%5D=id&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&page=1&per_page=10&columnFilter%5B0%5D%5Bcolumn%5D=product_id&columnFilter%5B0%5D%5Bval%5D=1&columnFilter%5B0%5D%5Bexp%5D=%3D&_=1486635117987";
+    var url1 = "/zw/cachetestserver/restcache/example/cars.php";
+    var url2 = "/zw/cachetestserver/restcache/example/companys.php";
+    var check_url = "/zw/cachetestserver/restcache/example/index.php?action=check_cache";
+
+    /**
+     * get
+     */
+    $.ajaxCache = function (conf) {
+        cache.isExistCache(conf.url,(isexist) => {
+            if(isexist){
+                cache.getDataWithUrl(conf.url, conf.success);
+            }else{
+                if(typeof conf.success == "function"){
+                    var yf = conf.success;
+                    conf.success = (result) => {
+                        cache.saveDataWithUrl(conf.url, result);
+                        yf(result);
+                    }
+                }else{
+                    conf.success = (result) => {
+                        cache.saveDataWithUrl(conf.url, result);
+                    }
+                }
+                $.ajax(conf);
+            }
+        });
+    };
+
+    cache.checkChangeWithRoute(check_url,function(result){
+        if(result.length == 0){
+            for (var i = 0; i < 5; i++) {
+                send(url1,i);
+            }
+            for (var i = 0; i < 5; i++) {
+                send(url2,i);
+            }
+        }else{
+            cache.deleteDataWithUrl(result,function(){
+                for (var i = 0; i < 5; i++) {
+                    send(url1,i);
+                }
+                for (var i = 0; i < 5; i++) {
+                    send(url2,i);
+                }
+            });
+        }
+    });
+
+
+
+    function send(url,i){
+        $.ajaxCache({
+            type: "GET",  //提交方式
+            url: url,//路径
+            headers: {'Authorization-Admin-User': 'admin_user_access_token 08193w0lfeLzZ48wTuQViYvBH6z+e01QRwSNs0olhsTKer2SMSLnGbmtobpWkt0x7wFgfa1adV4tk58reT0z'},
+            dataType:"json",
+            success: function (result) {
+                $("#showList").append(result[i].name +"&nbsp; &nbsp; &nbsp; "+result[i].email + "<br />");
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+
+
+</script>
+
+</body>
+</html>
